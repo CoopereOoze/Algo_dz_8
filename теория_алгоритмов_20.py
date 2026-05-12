@@ -8,22 +8,22 @@ Original file is located at
 """
 
 def optimal_triathlon_order(participants):
-    # Группируем по правилу Джонсона
-    group1 = []  # бас <= бег
-    group2 = []  # бас > бег
+     # Группируем по правилу Джонсона
+    group1 = []  # swim <= (bike + run)
+    group2 = []  # swim > (bike + run)
 
     for p in participants:
         name, swim, bike, run = p
-        if swim <= run:
+        if swim <= (bike + run):
             group1.append(p)
         else:
             group2.append(p)
 
-    # Сортируем по возрастанию времени плавания
+    # Сначала самые быстрые пловцы 
     group1.sort(key=lambda x: x[1])
-
-    # Сортируем по убыванию времени бега
-    group2.sort(key=lambda x: x[3], reverse=True)
+    
+    # Самые медленные в сумме bike+run 
+    group2.sort(key=lambda x: x[2] + x[3], reverse=True)
 
     # Оптимальный порядок
     optimal_order = group1 + group2
